@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>Docke镜像</title>
+      <link href="2021/02/28/Docke%E9%95%9C%E5%83%8F/"/>
+      <url>2021/02/28/Docke%E9%95%9C%E5%83%8F/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h1><center>Docker镜像</center></h1><h1 id="一、镜像是什么"><a href="#一、镜像是什么" class="headerlink" title="一、镜像是什么"></a>一、镜像是什么</h1><blockquote><p>镜像是一种轻量级，可执行的独立软件包，用来打包软件运行环境开发的软件，它包含运行某个软件所需的所有内容，包括代码，运行时，库，环境变量和配置文件</p></blockquote><blockquote><p>所有的应用，直接打包成docker镜像，就可以直接跑起来</p></blockquote><h1 id="二、Docker镜像加载原理"><a href="#二、Docker镜像加载原理" class="headerlink" title="二、Docker镜像加载原理"></a>二、Docker镜像加载原理</h1><blockquote><p>UnionFs(联合文件系统)</p></blockquote><p>Union文件系统是一种<strong>分层</strong>、<strong>轻量级</strong>并且高性能的文件系统，它支持对为你教案系统的修改作为一次提交来一层层的叠加，同时可以将不同目录挂载到同一个虚拟文件系统下。</p><p>Union文件系统时Docker镜像的基础，镜像可以通过分层来进行继承，基于基础镜像(没有父镜像)，可以制作各种具体的应用镜像</p><p>特性：一次同时加载多个文件系统，但从外面看起来，只能看到一个文件系统，联合加载会把各层文件系统叠加起来，这样最终的文件系统会包含所有底层的文件和目录</p><blockquote><p>Docker镜像加载原理</p></blockquote><p>docker的镜像实际上由一层一层的文件系统组成，这种层级的文件系统UnionFs</p><p>Bootfs(boot file system）主要包含bootloader和kernel,bootloader主要是引导加载kernel,linux刚启动时会加载bootfs文件系统，在docker镜像的最底层是bootfs。这一层与我们典型的Linux/Unix系统是一样的，包含boot加载器和内核，当boot加载完成之后整个内核就都在内存中了，此时内存的使用权已由bootfs转交给内核，此时系统也会西在bootfs。</p><p>rootfs(root file system),在bootfs之上。包含的就是典型Linux系统中的/dev,/pron,/bin,/etc等标准目录和文件夹，rootfs就是各种不同的操作系统发行版，比如Ubuntu,Centos等。</p><p><img src="https://i.loli.net/2021/02/28/H7DCc2tLpfZoE3Q.png" alt="docker镜像加载原理"></p><p>平时我们安装进虚拟机的centos都是几个G,为什么Docker这里才200M？</p><p><img src="https://i.loli.net/2021/02/28/JvfabyoED86lgkK.png" alt="docker images"></p><p>对于一个精简的os,rootfs可以很小，只需要包含最基本的命令，工具和程序就可以了，因为底层直接用Host的kernel,自己只需要提供rootfs就可以了，由此可见对于不同的liunx发行版，bootfs基本上是一致的，因此不同的发行版可以用公用的bootfs。</p><h1 id="三、分层理解"><a href="#三、分层理解" class="headerlink" title="三、分层理解"></a>三、分层理解</h1><blockquote><p>分层的镜像</p></blockquote><p>我们下载一个镜像，注意观察下载的日志输出，可以看到是一层一层的在下载</p><p><img src="https://i.loli.net/2021/02/28/d3WDzsu4EVpSKlN.png" alt="分层"></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>docker常用命令</title>
       <link href="2021/02/27/docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/"/>
       <url>2021/02/27/docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
