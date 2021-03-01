@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>Docker安装部署sentry服务</title>
+      <link href="2021/03/01/Docker%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2sentry%E6%9C%8D%E5%8A%A1/"/>
+      <url>2021/03/01/Docker%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2sentry%E6%9C%8D%E5%8A%A1/</url>
+      
+        <content type="html"><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h1><center>Docker安装部署sentry</center></h1><blockquote><p>前提已有docker</p></blockquote><h1 id="一、docker拉取redis-postgres-sentry-镜像"><a href="#一、docker拉取redis-postgres-sentry-镜像" class="headerlink" title="一、docker拉取redis postgres sentry 镜像"></a>一、docker拉取redis postgres sentry 镜像</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker pull redis</span><br><span class="line">docker pull postgres</span><br><span class="line">docker pull sentry</span><br></pre></td></tr></table></figure><h1 id="二、启动redis和postgres"><a href="#二、启动redis和postgres" class="headerlink" title="二、启动redis和postgres"></a>二、启动redis和postgres</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name sentry-redis redis </span><br><span class="line"></span><br><span class="line">docker run -d --name sentry-postgres -e POSTGRES_PASSWORD=secret -e POSTGRES_USER=sentry postgres </span><br></pre></td></tr></table></figure><h1 id="三、生成secret-key，记住这个密钥，之后复制到下面四行单引号中"><a href="#三、生成secret-key，记住这个密钥，之后复制到下面四行单引号中" class="headerlink" title="三、生成secret-key，记住这个密钥，之后复制到下面四行单引号中"></a>三、生成secret-key，记住这个密钥，之后复制到下面四行单引号中</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --rm sentry config generate-secret-key</span><br></pre></td></tr></table></figure><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">docker run -it --rm -e SENTRY_SECRET_KEY=&#x27;密钥&#x27; --link sentry-postgres:postgres --link sentry-redis:redis sentry upgrade</span><br><span class="line"><span class="meta">#</span><span class="bash"> 这一步会提示输入邮箱和密码</span></span><br><span class="line"></span><br><span class="line">docker run -d -p 9000:9000 --name my-sentry -e SENTRY_SECRET_KEY=&#x27;密钥&#x27; --link sentry-redis:redis --link sentry-postgres:postgres sentry </span><br><span class="line"></span><br><span class="line">docker run -d --name sentry-cron -e SENTRY_SECRET_KEY=&#x27;密钥&#x27; --link sentry-postgres:postgres --link sentry-redis:redis sentry run cron </span><br><span class="line"></span><br><span class="line">docker run -d --name sentry-worker-1 -e SENTRY_SECRET_KEY=&#x27;密钥&#x27; --link sentry-postgres:postgres --link sentry-redis:redis sentry run worker </span><br></pre></td></tr></table></figure><h1 id="四、安装完成，使用ip-9000访问"><a href="#四、安装完成，使用ip-9000访问" class="headerlink" title="四、安装完成，使用ip:9000访问"></a>四、安装完成，使用ip:9000访问</h1><p><img src="https://i.loli.net/2021/03/01/SLFOB2sYpfbxWrK.png" alt="sentry"></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Docke镜像</title>
       <link href="2021/02/28/Docke%E9%95%9C%E5%83%8F/"/>
       <url>2021/02/28/Docke%E9%95%9C%E5%83%8F/</url>
